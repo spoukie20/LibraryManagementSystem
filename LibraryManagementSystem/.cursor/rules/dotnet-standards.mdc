@@ -1,0 +1,28 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# .NET/C# Project Standards
+
+- Enforce PascalCase for class, interface, and method names.
+- Use camelCase for local variables and parameters.
+- Require XML documentation for all public methods and classes.
+- All services must be injected via dependency injection.
+- Controllers must validate all incoming DTOs and handle errors gracefully.
+- Implement comprehensive error handling in all layers (Controller, Service, Data).
+- Follow SOLID principles in all class and interface designs.
+- Use Entity Framework Core as the standard ORM, with MySQL as the database provider.
+- All database access must go through EF Core DbContext.
+- Use AutoMapper for mapping between entities and DTOs; do not map manually.
+- All error handling in controllers and APIs must use appropriate HTTP error codes (e.g., 400, 404, 500). If multiple error types are possible, use separate catch blocks for each error type.
+
+@Program.cs
+@Services/
+@Controllers/
+@DTOs/
+@Data/
+
+
+
+

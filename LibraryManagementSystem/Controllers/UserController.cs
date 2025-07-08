@@ -5,21 +5,23 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using LibraryManagementSystem.DTOs;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
 
 namespace LibraryManagementSystem.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    public class UserController(IUserService _userService) : ControllerBase
+    public class UserController(IUserService _userService, IMapper _mapper) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDto>>> GetAll()
+        public async Task<ActionResult> GetAll()
         {
             try
             {
                 var users = await _userService.GetAllUsersAsync();
-                var dtos = users.Select(u => new UserDto(u)).ToList();
+                var dtos = _mapper.Map<List<UserDto>>(users);
                 return Ok(dtos);
             }
             catch (DbUpdateException ex)
@@ -33,13 +35,13 @@ namespace LibraryManagementSystem.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserDto>> GetById(int id)
+        public async Task<ActionResult> GetById(int id)
         {
             try
             {
                 var user = await _userService.GetUserByIdAsync(id);
                 if (user == null) return NotFound();
-                return Ok(new UserDto(user));
+                return Ok(_mapper.Map<UserDto>(user));
             }
             catch (DbUpdateException ex)
             {
@@ -59,7 +61,7 @@ namespace LibraryManagementSystem.Controllers
                 if (!ModelState.IsValid) return BadRequest(ModelState);
                 var user = dto.ToUser();
                 await _userService.AddUserAsync(user);
-                return CreatedAtAction(nameof(GetById), new { id = user.Id }, new UserDto(user));
+                return CreatedAtAction(nameof(GetById), new { id = user.Id }, _mapper.Map<UserDto>(user));
             }
             catch (DbUpdateException ex)
             {

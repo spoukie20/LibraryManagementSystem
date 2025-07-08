@@ -1,4 +1,5 @@
 using LibraryManagementSystem.Models;
+using AutoMapper;
 
 namespace LibraryManagementSystem.DTOs
 {
@@ -11,6 +12,15 @@ namespace LibraryManagementSystem.DTOs
         {
             Id = user.Id;
             Name = user.Name;
+        }
+    }
+
+    public class UserProfile : Profile
+    {
+        public UserProfile()
+        {
+            CreateMap<User, UserDto>();
+            CreateMap<UserDto, User>();
         }
     }
 } 

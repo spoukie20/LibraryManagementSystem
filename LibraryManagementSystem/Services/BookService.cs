@@ -4,6 +4,7 @@ using LibraryManagementSystem.Models;
 using LibraryManagementSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace LibraryManagementSystem.Services
 {

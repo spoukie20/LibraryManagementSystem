@@ -5,23 +5,25 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using LibraryManagementSystem.DTOs;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
 
 namespace LibraryManagementSystem.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    public class BookController(IBookService _bookService) : ControllerBase
+    public class BookController(IBookService _bookService, IMapper _mapper) : ControllerBase
     {
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<BookDto>>> GetAll()
+        public async Task<ActionResult> GetAll()
         {
             try
             {
                 var books = await _bookService.GetAllBooksAsync();
-                var dtos = books.Select(b => new BookDto(b)).ToList();
+                var dtos = _mapper.Map<List<BookDto>>(books);
                 return Ok(dtos);
             }
             catch (DbUpdateException ex)
@@ -36,13 +38,13 @@ namespace LibraryManagementSystem.Controllers
 
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<BookDto>> GetById(int id)
+        public async Task<ActionResult> GetById(int id)
         {
             try
             {
                 var book = await _bookService.GetBookByIdAsync(id);
                 if (book == null) return NotFound();
-                return Ok(new BookDto(book));
+                return Ok(_mapper.Map<BookDto>(book));
             }
             catch (DbUpdateException ex)
             {
@@ -62,7 +64,7 @@ namespace LibraryManagementSystem.Controllers
                 if (!ModelState.IsValid) return BadRequest(ModelState);
                 var book = dto.ToBook();
                 await _bookService.AddBookAsync(book);
-                return CreatedAtAction(nameof(GetById), new { id = book.Id }, new BookDto(book));
+                return CreatedAtAction(nameof(GetById), new { id = book.Id }, _mapper.Map<BookDto>(book));
             }
             catch (DbUpdateException ex)
             {

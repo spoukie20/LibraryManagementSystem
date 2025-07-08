@@ -1,0 +1,29 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Vue.js Project Standards
+
+- Always use Windtail (Tailwind CSS) for styling components. Do not use inline or other CSS frameworks unless necessary.
+- Place all style blocks at the top of the .vue file, before script and template.
+- Use script setup syntax for new components.
+- Enforce PascalCase for component names and file names.
+- Use camelCase for props and data properties.
+- All components must implement error handling for API calls and user actions.
+- Use centralized error handling where possible (e.g., global error boundary or error store).
+- Follow SOLID principles in component and service design.
+- Use Vuex or Pinia for state management if shared state is needed.
+
+@wwwroot/css/
+@Pages/
+@Shared/
+
+
+
+- Always use Pinia stores for all business and application logic; do not place logic directly in components.
+- All error handling must be routed through the snackbar menu for user feedback.
+
+
+
+

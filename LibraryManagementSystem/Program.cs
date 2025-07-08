@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -17,6 +18,9 @@ builder.Services.AddScoped<LibraryManagementSystem.Services.IBorrowService, Libr
 builder.Services.AddScoped<LibraryManagementSystem.Services.INotificationService, LibraryManagementSystem.Services.EmailNotificationService>();
 builder.Services.AddScoped<LibraryManagementSystem.Services.IBookAvailabilityService, LibraryManagementSystem.Services.BookService>();
 builder.Services.AddScoped<LibraryManagementSystem.Services.IAuthService, LibraryManagementSystem.Services.AuthService>();
+
+// Add AutoMapper
+builder.Services.AddAutoMapper(typeof(Program));
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<LibraryContext>(options =>

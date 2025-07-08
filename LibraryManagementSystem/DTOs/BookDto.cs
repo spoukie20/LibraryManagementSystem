@@ -1,4 +1,5 @@
 using LibraryManagementSystem.Models;
+using AutoMapper;
 
 namespace LibraryManagementSystem.DTOs
 {
@@ -17,6 +18,15 @@ namespace LibraryManagementSystem.DTOs
             Author = book.Author;
             IsAvailable = book.IsAvailable;
             BorrowedByUserId = book.BorrowedByUserId;
+        }
+    }
+
+    public class BookProfile : Profile
+    {
+        public BookProfile()
+        {
+            CreateMap<Book, BookDto>();
+            CreateMap<BookDto, Book>();
         }
     }
 } 
